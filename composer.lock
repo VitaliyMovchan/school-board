@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4aa9f720cc7a4b96b0f5c69d74bbdfe",
+    "content-hash": "32d31dcd78816c70ad23151b6bf1df6a",
     "packages": [
         {
             "name": "spatie/array-to-xml",
@@ -64,7 +64,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "ext-sqlite3": "*"
+        "ext-sqlite3": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }
