@@ -92,7 +92,9 @@ class App
         $studentGradeEntity = new gradeEntity($this->sqlite);
         $studentGradeEntityData = $studentGradeEntity->getGradesByStudentID($studentID);
     
-        $studentEntityData['grades'] = $studentGradeEntityData;
+        $studentEntityData['grades'] =  ArrayHelper::arrayMapByKey(
+            $studentGradeEntityData,
+            'grade');
        
         return $studentEntityData;
     }
@@ -111,15 +113,11 @@ class App
         if (is_null($schoolBoard)) {
             throw new Exception('School board required');
         }
-    
-        $studentGrades = ArrayHelper::arrayMapByKey(
-            $studentData['grades'] ?? [],
-            'grade');
         
         return new Student(
             $studentData['id'] ?? 0,
             $studentData['name'] ?? '',
-            $studentGrades,
+            $studentData['grades'] ?? [],
             $schoolBoard
         );
     }
