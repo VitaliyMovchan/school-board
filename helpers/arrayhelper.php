@@ -24,4 +24,16 @@ class ArrayHelper
             throw new Exception($e->getMessage());
         }
     }
+    
+    /**
+     * @param array $array
+     * @param string $key
+     * @return array
+     */
+    public static function arrayMapByKey(array $array, string $key)
+    {
+        return array_map(function ($array) use ($key) {
+            return $array[$key];
+        }, $array);
+    }
 }

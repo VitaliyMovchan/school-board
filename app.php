@@ -1,11 +1,11 @@
 <?php
 
-
 use classes\http\Request;
 use classes\schoolBoards\SchoolBoardHelper;
 use classes\db\sqlite\StudentEntity;
 use classes\db\sqlite\GradeEntity;
 use classes\Student\Student;
+use helpers\ArrayHelper;
 use helpers\FileHelper;
 
 /**
@@ -91,15 +91,10 @@ class App
         
         $studentGradeEntity = new gradeEntity($this->sqlite);
         $studentGradeEntityData = $studentGradeEntity->getGradesByStudentID($studentID);
-        
-        return [
-            'id' => $studentEntityData[0]['id'] ?? 0,
-            'name' => $studentEntityData[0]['name'] ?? '',
-            'school_board' => $studentEntityData[0]['school_board'] ?? 0,
-            'grades' => array_map(function ($array) {
-                return $array['grade'] ?? 0;
-            }, $studentGradeEntityData)
-        ];
+    
+        $studentEntityData['grades'] = $studentGradeEntityData;
+       
+        return $studentEntityData;
     }
     
     /**
@@ -109,16 +104,22 @@ class App
      */
     private function getStudent(array $studentData): Student
     {
-        $schoolBoard = schoolBoardHelper::getSchoolBoardByType($studentData['school_board']);
+        $schoolBoard = schoolBoardHelper::getSchoolBoardByType(
+            $studentData['school_board'] ?? 0
+        );
         
         if (is_null($schoolBoard)) {
             throw new Exception('School board required');
         }
+    
+        $studentGrades = ArrayHelper::arrayMapByKey(
+            $studentData['grades'] ?? [],
+            'grade');
         
         return new Student(
-            $studentData['id'],
-            $studentData['name'],
-            $studentData['grades'],
+            $studentData['id'] ?? 0,
+            $studentData['name'] ?? '',
+            $studentGrades,
             $schoolBoard
         );
     }

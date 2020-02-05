@@ -9,6 +9,8 @@ use Exception;
 /**
  * Class Student
  *
+ * This class realize design pattern strategy
+ *
  * @package classes
  *
  * @property int $id
@@ -69,6 +71,7 @@ class Student
         $this->validate();
         
         $this->rating = arrayHelper::getAverageValue($this->grades);
+        $this->rating = round($this->rating, 2);
     }
     
     /**

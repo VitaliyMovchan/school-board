@@ -28,6 +28,6 @@ class StudentEntity extends entity
         
         $result = $this->executeQuery($query);
         
-        return $this->fetchResult($result);
+        return $this->fetchResult($result)[0];
     }
 }
